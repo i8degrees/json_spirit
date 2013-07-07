@@ -1,8 +1,9 @@
 cmake_minimum_required ( VERSION 2.8 )
 
 set ( CMAKE_VERBOSE_MAKEFILE true )
+set ( CMAKE_BUILD_TYPE Release )
 
-option ( BUILD_SHARED_LIBS "Build as a shared library -- as opposed to static library" off )
+option ( BUILD_SHARED_LIBS "Build as a shared library -- as opposed to static library" on )
 
 if ( BUILD_SHARED_LIBS )
   message ( "Building as a shared library" )
