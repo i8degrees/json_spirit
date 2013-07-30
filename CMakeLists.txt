@@ -4,81 +4,94 @@ set ( PROJECT_VERSION_MAJOR 4 )
 set ( PROJECT_VERSION_MINOR 6 )
 project ( json_spirit ) # $PROJECT_NAME
 
-set ( CMAKE_VERBOSE_MAKEFILE true )
+set ( SRC_DIR "${PROJECT_SOURCE_DIR}/src" )
+
+# CMake Environment
+set ( CMAKE_VERBOSE_MAKEFILE false )
 set ( CMAKE_BUILD_TYPE Release )
 
-option ( BUILD_SHARED_LIBS "Build as a shared library -- as opposed to static library" on )
+option ( BUILD_SHARED_LIBS "Build as a dylib (dynamic library)" on )
+option ( BUILD_UNIVERSAL_LIB "Build as an OSX Universal Library" off )
+
+if ( BUILD_UNIVERSAL_LIB )
+  set ( CMAKE_OSX_ARCHITECTURES i386; x86_64 )
+  message ( STATUS "Building an OSX Universal Library" )
+endif ( BUILD_UNIVERSAL_LIB )
 
 if ( BUILD_SHARED_LIBS )
-  message ( "Building as a shared library" )
+  message ( STATUS "Building as a shared library" )
 else ( NOT BUILD_SHARED_LIBS )
-  message ( "Building as a static library" )
+  message ( STATUS "Building as a static library" )
 endif ( BUILD_SHARED_LIBS )
 
 set ( JSON_SPIRIT_SRCS
-      json_spirit_reader.cpp
-      json_spirit_reader.h
-      json_spirit_value.cpp
-      json_spirit_value.h
-      json_spirit_writer.cpp
-      json_spirit_writer.h
-      json_spirit.h
-      json_spirit_error_position.h
-      json_spirit_reader_template.h
-      json_spirit_stream_reader.h
-      json_spirit_utils.h
-      json_spirit_writer_options.h
-      json_spirit_writer_template.h
+      ${SRC_DIR}/json_spirit_reader.cpp
+      ${SRC_DIR}/json_spirit_reader.h
+      ${SRC_DIR}/json_spirit_value.cpp
+      ${SRC_DIR}/json_spirit_value.h
+      ${SRC_DIR}/json_spirit_writer.cpp
+      ${SRC_DIR}/json_spirit_writer.h
+      ${SRC_DIR}/json_spirit.h
+      ${SRC_DIR}/json_spirit_error_position.h
+      ${SRC_DIR}/json_spirit_reader_template.h
+      ${SRC_DIR}/json_spirit_stream_reader.h
+      ${SRC_DIR}/json_spirit_utils.h
+      ${SRC_DIR}/json_spirit_writer_options.h
+      ${SRC_DIR}/json_spirit_writer_template.h
     )
 
 set ( JSON_SPIRIT_HEADERS
-      json_spirit.h
-      json_spirit_error_position.h
-      json_spirit_reader.h
-      json_spirit_reader_template.h
-      json_spirit_stream_reader.h
-      json_spirit_utils.h
-      json_spirit_value.h
-      json_spirit_writer.h
-      json_spirit_writer_options.h
-      json_spirit_writer_template.h
+      ${SRC_DIR}/json_spirit.h
+      ${SRC_DIR}/json_spirit_error_position.h
+      ${SRC_DIR}/json_spirit_reader.h
+      ${SRC_DIR}/json_spirit_reader_template.h
+      ${SRC_DIR}/json_spirit_stream_reader.h
+      ${SRC_DIR}/json_spirit_utils.h
+      ${SRC_DIR}/json_spirit_value.h
+      ${SRC_DIR}/json_spirit_writer.h
+      ${SRC_DIR}/json_spirit_writer_options.h
+      ${SRC_DIR}/json_spirit_writer_template.h
     )
 
+# Required Dependencies
 find_package ( Boost 1.34 REQUIRED )
 include_directories ( ${Boost_INCLUDE_DIR} )
 
-if ( NOT BUILD_SHARED_LIBS )
-  add_library ( ${PROJECT_NAME} STATIC ${JSON_SPIRIT_SRCS} )
-else ( BUILD_SHARED_LIBS )
-  add_library ( ${PROJECT_NAME} SHARED ${JSON_SPIRIT_SRCS} )
-endif ( NOT BUILD_SHARED_LIBS )
+# Install output library in the standard POSIX locations.
+#
+# CMAKE_INSTALL_PREFIX can be passed to cmake to change this.
 
-set_target_properties ( ${PROJECT_NAME}
-                        PROPERTIES SOVERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}"
+if ( BUILD_SHARED_LIBS )
+
+  add_library ( ${PROJECT_NAME} SHARED ${JSON_SPIRIT_SRCS} )
+  install ( TARGETS ${PROJECT_NAME} LIBRARY DESTINATION lib )
+
+else ( NOT BUILD_SHARED_LIBS )
+
+  add_library ( ${PROJECT_NAME} STATIC ${JSON_SPIRIT_SRCS} )
+  install ( TARGETS ${PROJECT_NAME} ARCHIVE DESTINATION lib )
+
+endif ( BUILD_SHARED_LIBS )
+
+# Set library version info
+set_target_properties ( ${PROJECT_NAME} PROPERTIES
+                        SOVERSION
+                        "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}"
                       )
 
-if ( NOT TTCARDS_JSON_SPIRIT_COMPILE )
+# Install library include headers
+install ( FILES ${JSON_SPIRIT_HEADERS} DESTINATION include/${PROJECT_NAME} )
 
-  #     Install library
-  if ( BUILD_SHARED_LIBS )
-    install ( TARGETS ${PROJECT_NAME} LIBRARY DESTINATION lib )
-  else ( NOT BUILD_SHARED_LIBS )
-    install ( TARGETS ${PROJECT_NAME} ARCHIVE DESTINATION lib )
-  endif ( BUILD_SHARED_LIBS )
+# Uninstall target
+configure_file  (
+                  "${PROJECT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
+                  "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+                  IMMEDIATE @ONLY
+                )
 
-  #   Install headers
-  install ( FILES ${JSON_SPIRIT_HEADERS} DESTINATION include/${PROJECT_NAME} )
-
-  #   Uninstall target
-  configure_file  (
-                    "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
-                    "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
-                    IMMEDIATE @ONLY
+add_custom_target ( uninstall
+                    COMMAND ${CMAKE_COMMAND} -P
+                    ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
                   )
 
-  add_custom_target ( uninstall
-                      COMMAND ${CMAKE_COMMAND} -P
-                      ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
-                    )
-
-endif ( NOT TTCARDS_JSON_SPIRIT_COMPILE )
+#include ( CPACK )
