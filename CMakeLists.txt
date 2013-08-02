@@ -95,6 +95,13 @@ set_target_properties ( ${PROJECT_NAME} PROPERTIES
 # Install library include headers
 install ( FILES ${JSON_SPIRIT_HEADERS} DESTINATION include/${PROJECT_NAME} )
 
+install ( FILES "LICENSE.md" "README.md" DESTINATION share/doc/${PROJECT_NAME} )
+
+install ( DIRECTORY ${PROJECT_SOURCE_DIR}/extra
+          DESTINATION share/${PROJECT_NAME}/cmake
+          PATTERN ".*" EXCLUDE # do not include those pesky dotfiles
+        )
+
 # Uninstall target
 configure_file  (
                   "${PROJECT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
