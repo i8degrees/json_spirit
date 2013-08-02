@@ -11,7 +11,7 @@ script:
   - make -j4
   - sudo make install
   - sudo make uninstall
-  - make package
+#  - make package
   - make clean
 # whitelist
 branches:
