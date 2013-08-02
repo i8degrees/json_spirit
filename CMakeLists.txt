@@ -12,7 +12,7 @@ option ( DEBUG "Enable full debugging on built library" off )
 option ( BUILD_SHARED_LIBS "Build as dynamic library" on )
 
 if ( CMAKE_SYSTEM_NAME STREQUAL "Darwin" )
-  option ( BUILD_UNIVERSAL_LIB "Build as an OSX Universal Library" off )
+  option ( UNIVERSAL "Build as an OSX Universal Library" off )
 endif ( CMAKE_SYSTEM_NAME STREQUAL "Darwin" )
 
 if ( VERBOSE )
@@ -25,10 +25,10 @@ else ( NOT DEBUG )
   set ( CMAKE_BUILD_TYPE Release )
 endif ( DEBUG )
 
-if ( BUILD_UNIVERSAL_LIB )
+if ( UNIVERSAL )
   set ( CMAKE_OSX_ARCHITECTURES i386; x86_64 )
   message ( STATUS "Building an OSX Universal Library" )
-endif ( BUILD_UNIVERSAL_LIB )
+endif ( UNIVERSAL )
 
 if ( BUILD_SHARED_LIBS )
   message ( STATUS "Building shared library" )
