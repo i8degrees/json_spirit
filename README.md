@@ -1,6 +1,6 @@
 # json_spirit #
 
-Project fork of [json_spirit](http://www.codeproject.com/Articles/20027/JSON-Spirit-A-C-JSON-Parser-Generator-Implemented) v4.06 library.
+Project fork of [json_spirit](http://www.codeproject.com/Articles/20027/JSON-Spirit-A-C-JSON-Parser-Generator-Implemented) v4.06 library, primarily with OS X distribution in mind.
 
 ## Why ##
 
@@ -11,16 +11,17 @@ Originally, it was simply to include this library into my project as a git submo
 Except for the minor last two items, no changes have been made to the library source. All changes found are within the build script (CMakeLists.txt). The first three items are most important (to me).
 
 * Option to build as either a shared or static library (shared by default).
-  > I had trouble using json_spirit on OSX when compiled as a static library -- something to do with the linking stage and json_spirit_value.o not having symbols. Building as a shared library fixes my problem.
+    > I had trouble using json_spirit on OSX when compiled as a static library -- something to do with the linking stage and json_spirit_value.o not having symbols. Building as a shared library fixes my problem.
 
 * Add option to build as either debug or release binary (release by default)
-  > What a difference it makes in built library file sizes!
+    > What a difference it makes in built library file sizes!
 
-* Add install_name_dir property to built library so we do not have to manually "fix" it with install_name_tool when bundling it with third-party software
-* Add soname version to target library
+* Add install_name_dir CMake property to build library so we do not have to manually "fix" it with install_name_tool when bundling it with third-party software; this only affects the build if you are building within the OS X environment.
+
+* CMake option for OSX Universal Libraries. By default, this feature is disabled. This option is only available within the OS X environment.
+* Add soname version property to target library
 * CMake module for finding json_spirit
 * 'make uninstall' target support
-* OSX Universal Library support
 * Add CMake options to build the features you want (so you do not have to edit any header files). By default, all features are enabled.
 * Fix compile warning (see my second commit log for details)
 
