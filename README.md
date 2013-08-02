@@ -16,8 +16,9 @@ Except for the minor compile warning fix (see last item), no changes have been m
 * Add option to build as either debug or release binary (release by default)
   > What a difference it makes in built library file sizes!
 
-* CMake module for finding json_spirit
+* Add install_name_dir property to built library so we do not have to manually "fix" it with install_name_tool when bundling it with third-party software
 * Add soname version to target library
+* CMake module for finding json_spirit
 * 'make uninstall' target support
 * OSX Universal Library support
 * Fix compile warning (see my second commit log for details)

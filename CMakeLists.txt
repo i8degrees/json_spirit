@@ -86,6 +86,19 @@ else ( NOT BUILD_SHARED_LIBS )
 
 endif ( BUILD_SHARED_LIBS )
 
+if ( CMAKE_SYSTEM_NAME STREQUAL "Darwin" ) # OSX specific option
+
+  # For distribution with user's frameworks / application bundle
+  #
+  # TODO / I should probably be using @rpath here
+  set_target_properties ( ${PROJECT_NAME} PROPERTIES
+                          BUILD_WITH_INSTALL_RPATH 1
+                          INSTALL_NAME_DIR
+                          "@executable_path/../Libraries"
+                        )
+
+endif ( CMAKE_SYSTEM_NAME STREQUAL "Darwin" )
+
 # Set library version info
 set_target_properties ( ${PROJECT_NAME} PROPERTIES
                         SOVERSION
