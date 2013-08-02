@@ -4,7 +4,9 @@ set ( PROJECT_VERSION_MAJOR 4 )
 set ( PROJECT_VERSION_MINOR 6 )
 project ( json_spirit ) # $PROJECT_NAME
 
-set ( SRC_DIR "${PROJECT_SOURCE_DIR}/src" )
+# Source files specified path must be relative path from project root and
+# without the closing backslash character
+set ( SRC_DIR "src" )
 
 # CMake Environment
 option ( VERBOSE "Turn on verbose makefile output" off )
