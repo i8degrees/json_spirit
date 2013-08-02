@@ -8,10 +8,21 @@ project ( json_spirit ) # $PROJECT_NAME
 # without the closing backslash character
 set ( SRC_DIR "src" )
 
+configure_file  (
+                  "${PROJECT_SOURCE_DIR}/cmake/json_spirit_config.h.in"
+                  "${PROJECT_SOURCE_DIR}/${SRC_DIR}/json_spirit_config.h"
+                )
+
 # CMake Environment
 option ( VERBOSE "Turn on verbose makefile output" off )
 option ( DEBUG "Enable full debugging on built library" off )
 option ( BUILD_SHARED_LIBS "Build as dynamic library" on )
+
+# These options influence build time and intermediate file size
+option ( ENABLE_VALUE "Enable Value support" on )
+option ( ENABLE_UNICODE "Enable Unicode support" on )
+option ( ENABLE_MAP "Enable std::map support" on )
+option ( ENABLE_UMAP "Enable std::map Unicode support" on )
 
 if ( CMAKE_SYSTEM_NAME STREQUAL "Darwin" )
   option ( UNIVERSAL "Build as an OSX Universal Library" off )
@@ -79,6 +90,7 @@ include_directories ( ${Boost_INCLUDE_DIR} )
 if ( BUILD_SHARED_LIBS )
 
   add_library ( ${PROJECT_NAME} SHARED ${JSON_SPIRIT_SRCS} )
+
   install ( TARGETS ${PROJECT_NAME} LIBRARY DESTINATION lib )
 
 else ( NOT BUILD_SHARED_LIBS )
@@ -108,7 +120,9 @@ set_target_properties ( ${PROJECT_NAME} PROPERTIES
                       )
 
 # Install library include headers
-install ( FILES ${JSON_SPIRIT_HEADERS} DESTINATION include/${PROJECT_NAME} )
+install ( FILES ${JSON_SPIRIT_HEADERS} "${SRC_DIR}/json_spirit_config.h"
+          DESTINATION include/${PROJECT_NAME}
+        )
 
 # Install my project fork info
 install ( FILES "LICENSE.md" "README.md" DESTINATION share/doc/${PROJECT_NAME} )

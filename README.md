@@ -8,7 +8,7 @@ Originally, it was simply to include this library into my project as a git submo
 
 ## Changes From Original ##
 
-Except for the minor compile warning fix (see last item), no changes have been made to the library source. All changes found are within the build script (CMakeLists.txt)
+Except for the minor last two items, no changes have been made to the library source. All changes found are within the build script (CMakeLists.txt). The first three items are most important (to me).
 
 * Option to build as either a shared or static library (shared by default).
   > I had trouble using json_spirit on OSX when compiled as a static library -- something to do with the linking stage and json_spirit_value.o not having symbols. Building as a shared library fixes my problem.
@@ -21,6 +21,7 @@ Except for the minor compile warning fix (see last item), no changes have been m
 * CMake module for finding json_spirit
 * 'make uninstall' target support
 * OSX Universal Library support
+* Add CMake options to build the features you want (so you do not have to edit any header files). By default, all features are enabled.
 * Fix compile warning (see my second commit log for details)
 
 ## Projects Using This Fork ##
