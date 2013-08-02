@@ -1,4 +1,4 @@
-cmake_minimum_required ( VERSION 2.8 )
+cmake_minimum_required ( VERSION 2.0 )
 
 set ( PROJECT_VERSION_MAJOR 4 )
 set ( PROJECT_VERSION_MINOR 6 )
@@ -7,11 +7,23 @@ project ( json_spirit ) # $PROJECT_NAME
 set ( SRC_DIR "${PROJECT_SOURCE_DIR}/src" )
 
 # CMake Environment
-set ( CMAKE_VERBOSE_MAKEFILE false )
-set ( CMAKE_BUILD_TYPE Release )
-
+option ( VERBOSE "Turn on verbose makefile output" off )
+option ( DEBUG "Enable full debugging on built library" off )
 option ( BUILD_SHARED_LIBS "Build as a dylib (dynamic library)" on )
-option ( BUILD_UNIVERSAL_LIB "Build as an OSX Universal Library" off )
+
+if ( CMAKE_SYSTEM_NAME STREQUAL "Darwin" )
+  option ( BUILD_UNIVERSAL_LIB "Build as an OSX Universal Library" off )
+endif ( CMAKE_SYSTEM_NAME STREQUAL "Darwin" )
+
+if ( VERBOSE )
+  set ( CMAKE_VERBOSE_MAKEFILE true )
+endif ( VERBOSE )
+
+if ( DEBUG )
+  set ( CMAKE_BUILD_TYPE Debug )
+else ( NOT DEBUG )
+  set ( CMAKE_BUILD_TYPE Release )
+endif ( DEBUG )
 
 if ( BUILD_UNIVERSAL_LIB )
   set ( CMAKE_OSX_ARCHITECTURES i386; x86_64 )
@@ -57,9 +69,10 @@ set ( JSON_SPIRIT_HEADERS
 find_package ( Boost 1.34 REQUIRED )
 include_directories ( ${Boost_INCLUDE_DIR} )
 
-# Install output library in the standard POSIX locations.
+# Install built library to the standard POSIX locations.
 #
-# CMAKE_INSTALL_PREFIX can be passed to cmake to change this.
+# Install location can be changed by passing CMAKE_INSTALL_PREFIX through cmake
+# at project build time.
 
 if ( BUILD_SHARED_LIBS )
 
@@ -94,4 +107,4 @@ add_custom_target ( uninstall
                     ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
                   )
 
-#include ( CPACK )
+include ( CPACK )
