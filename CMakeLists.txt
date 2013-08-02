@@ -115,4 +115,4 @@ add_custom_target ( uninstall
                     ${CMAKE_CURRENT_BINARY_DIR}/uninstall.cmake
                   )
 
-include ( CPACK )
+include ( CPack )
