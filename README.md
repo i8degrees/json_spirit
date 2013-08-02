@@ -1,6 +1,55 @@
-json_spirit
-========
+# json_spirit #
 
-Project fork of json_spirit v4.06 library
+Project fork of [json_spirit](http://www.codeproject.com/Articles/20027/JSON-Spirit-A-C-JSON-Parser-Generator-Implemented) v4.06 library.
 
-* http://www.codeproject.com/Articles/20027/JSON-Spirit-A-C-JSON-Parser-Generator-Implemented
+## Why ##
+
+Originally, it was simply to include this library into my project as a git submodule for linking to. I had trouble linking to the json_spirit library provided by brew (OSX). As with all things in life, it slowly grew from there.
+
+## Changes From Original ##
+
+Except for the minor compile warning fix (see last item), no changes have been made to the library source. All changes found are within the build script (CMakeLists.txt)
+
+* Option to build as either a shared or static library (shared by default).
+  > I had trouble using json_spirit on OSX when compiled as a static library -- something to do with the linking stage and json_spirit_value.o not having symbols. Building as a shared library fixes my problem.
+
+* Add option to build as either debug or release binary (release by default)
+  > What a difference it makes in built library file sizes!
+
+* CMake module for finding json_spirit
+* Add soname version to target library
+* 'make uninstall' target support
+* OSX Universal Library support
+* Fix compile warning (see my second commit log for details)
+
+## Projects Using This Fork ##
+
+* [i8degrees/ttcards](https://github.com/i8degrees/ttcards)
+
+## Building Instructions ##
+
+### Dependencies ###
+
+* cmake v2.0+
+* Boost v1.34+
+
+### Build Status ###
+
+[![Build Status](https://travis-ci.org/i8degrees/json_spirit.png?branch=master)](https://travis-ci.org/i8degrees/json_spirit)
+
+After obtaining the necessary dependencies listed above:
+
+```
+  git clone https://github.com/i8degrees/json_spirit
+  cd json_spirit
+  mkdir build && cd build
+  cmake ..
+  make
+  make install
+```
+
+Uninstall support is provided by running 'make uninstall' within the build directory.
+
+## TODO ##
+
+* OSX Framework build target
