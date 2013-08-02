@@ -9,7 +9,7 @@ set ( SRC_DIR "${PROJECT_SOURCE_DIR}/src" )
 # CMake Environment
 option ( VERBOSE "Turn on verbose makefile output" off )
 option ( DEBUG "Enable full debugging on built library" off )
-option ( BUILD_SHARED_LIBS "Build as a dylib (dynamic library)" on )
+option ( BUILD_SHARED_LIBS "Build as dynamic library" on )
 
 if ( CMAKE_SYSTEM_NAME STREQUAL "Darwin" )
   option ( BUILD_UNIVERSAL_LIB "Build as an OSX Universal Library" off )
@@ -31,9 +31,9 @@ if ( BUILD_UNIVERSAL_LIB )
 endif ( BUILD_UNIVERSAL_LIB )
 
 if ( BUILD_SHARED_LIBS )
-  message ( STATUS "Building as a shared library" )
+  message ( STATUS "Building shared library" )
 else ( NOT BUILD_SHARED_LIBS )
-  message ( STATUS "Building as a static library" )
+  message ( STATUS "Building static library" )
 endif ( BUILD_SHARED_LIBS )
 
 set ( JSON_SPIRIT_SRCS
@@ -95,8 +95,10 @@ set_target_properties ( ${PROJECT_NAME} PROPERTIES
 # Install library include headers
 install ( FILES ${JSON_SPIRIT_HEADERS} DESTINATION include/${PROJECT_NAME} )
 
+# Install my project fork info
 install ( FILES "LICENSE.md" "README.md" DESTINATION share/doc/${PROJECT_NAME} )
 
+# Install my cmake module script for finding json_spirit library
 install ( DIRECTORY ${PROJECT_SOURCE_DIR}/extra
           DESTINATION share/${PROJECT_NAME}/cmake
           PATTERN ".*" EXCLUDE # do not include those pesky dotfiles
