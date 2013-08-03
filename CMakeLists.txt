@@ -29,8 +29,8 @@ configure_file  (
 
 # We cannot include the examples and tests until after our auto-generated
 # template is configured.
-SUBDIRS ( json_demo json_headers_only_demo json_map_demo json_test )
 include_directories ( ${SRC_DIR} )
+SUBDIRS ( json_demo json_headers_only_demo json_map_demo json_test )
 
 # CMake Environment
 option ( VERBOSE "Turn on verbose makefile output" off )
