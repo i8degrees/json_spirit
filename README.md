@@ -23,6 +23,8 @@ Except for the minor last two items, no changes have been made to the library so
 * Add soname version property to target library
 * CMake module for finding json_spirit
 * 'make uninstall' target support
+* Add CMake options for building demos and tests; default is enabled.
+    > I actually never intended on doing this, but this is intended to be a temporary fix until I feel like diagnosing why my [Travis-CI build](http://travis-ci.org/i8degrees/json_spirit) does not succeed due to the examples being included.
 * Add CMake options to build the features you want (so you do not have to edit any header files). By default, all features are enabled.
 * Fix compile warning (see my second commit log for details)
 

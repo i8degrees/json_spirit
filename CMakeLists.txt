@@ -27,11 +27,6 @@ configure_file  (
                   "${PROJECT_SOURCE_DIR}/${SRC_DIR}/json_spirit_config.h"
                 )
 
-# We cannot include the examples and tests until after our auto-generated
-# template is configured.
-include_directories ( ${SRC_DIR} )
-SUBDIRS ( json_demo json_headers_only_demo json_map_demo json_test )
-
 # CMake Environment
 option ( VERBOSE "Turn on verbose makefile output" off )
 option ( DEBUG "Enable full debugging on built library" off )
@@ -42,6 +37,8 @@ option ( ENABLE_VALUE "Enable Value support" on )
 option ( ENABLE_UNICODE "Enable Unicode support" on )
 option ( ENABLE_MAP "Enable std::map support" on )
 option ( ENABLE_UMAP "Enable std::map Unicode support" on )
+option ( EXAMPLES "Build examples" on )
+option ( TESTS "Build tests" on )
 
 if ( CMAKE_SYSTEM_NAME STREQUAL "Darwin" ) # OSX specific options
   option ( UNIVERSAL "Build as an OSX Universal Library" off )
@@ -72,6 +69,16 @@ endif ( BUILD_SHARED_LIBS )
 if ( FRAMEWORK )
   message ( STATUS "Building Framework library" )
 endif ( FRAMEWORK )
+
+if ( EXAMPLES )
+  SUBDIRS ( json_demo json_headers_only_demo json_map_demo )
+endif ( EXAMPLES )
+
+if ( TESTS )
+  add_subdirectory ( json_test )
+endif ( TESTS )
+
+include_directories ( ${SRC_DIR} )
 
 set ( JSON_SPIRIT_SRCS
       ${SRC_DIR}/json_spirit_reader.cpp
