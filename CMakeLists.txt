@@ -2,6 +2,7 @@ cmake_minimum_required ( VERSION 2.0 )
 
 set ( PROJECT_VERSION_MAJOR 4 )
 set ( PROJECT_VERSION_MINOR 6 )
+set ( PROJECT_VERSION_PATCH 1 )
 project ( json_spirit ) # $PROJECT_NAME
 
 # Where to find our CMake templates; must be without closing backslash character
@@ -150,9 +151,9 @@ if ( CMAKE_SYSTEM_NAME STREQUAL "Darwin" ) # OSX specific options
                             MACOSX_FRAMEWORK_NAME
                             "${PROJECT_NAME}"
                             MACOSX_FRAMEWORK_BUNDLE_VERSION
-                            "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}-${CMAKE_BUILD_TYPE}"
+                            "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}-${CMAKE_BUILD_TYPE}"
                             MACOSX_FRAMEWORK_SHORT_VERSION_STRING
-                            "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}"
+                            "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}"
                             MACOSX_FRAMEWORK_IDENTIFIER
                             "org.dev.${PROJECT_NAME}"
                           )
@@ -171,7 +172,7 @@ endif ( CMAKE_SYSTEM_NAME STREQUAL "Darwin" )
 # Set library version info
 set_target_properties ( ${PROJECT_NAME} PROPERTIES
                         SOVERSION
-                        "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}"
+                        "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}"
                       )
 
 # Install library, dependent upon the type that it is
