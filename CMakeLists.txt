@@ -94,6 +94,7 @@ set ( JSON_SPIRIT_SRCS
     )
 
 set ( JSON_SPIRIT_HEADERS
+      ${SRC_DIR}/json_spirit_config.h
       ${SRC_DIR}/json_spirit.h
       ${SRC_DIR}/json_spirit_error_position.h
       ${SRC_DIR}/json_spirit_reader.h
@@ -196,7 +197,7 @@ else ( NOT FRAMEWORK )
 endif ( FRAMEWORK )
 
 # Install library include headers
-install ( FILES ${JSON_SPIRIT_HEADERS} "${SRC_DIR}/json_spirit_config.h"
+install ( FILES ${JSON_SPIRIT_HEADERS}
           DESTINATION "${INSTALL_HEADERS_PATH}"
         )
 
