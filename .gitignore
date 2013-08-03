@@ -3,7 +3,7 @@ build
 build-osx
 
 # auto-generated
-src/json_spirit_config.h
+json_spirit/json_spirit_config.h
 
 # local dev
 install_options
