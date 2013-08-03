@@ -12,15 +12,6 @@ set ( CMAKE_TEMPLATE_DIR "${PROJECT_SOURCE_DIR}/cmake" )
 # without the closing backslash character
 set ( SRC_DIR "json_spirit" )
 
-# Include examples & tests
-SUBDIRS ( json_demo
-          json_headers_only_demo
-          json_map_demo
-          json_test
-        )
-
-include_directories ( ${SRC_DIR} )
-
 # Default installation paths are relative to CMAKE_INSTALL_PREFIX and must be
 # without the closing backslash character.
 set ( INSTALL_LIBRARY_PATH "lib" )
@@ -35,6 +26,11 @@ configure_file  (
                   "${CMAKE_TEMPLATE_DIR}/json_spirit_config.h.in"
                   "${PROJECT_SOURCE_DIR}/${SRC_DIR}/json_spirit_config.h"
                 )
+
+# We cannot include the examples and tests until after our auto-generated
+# template is configured.
+SUBDIRS ( json_demo json_headers_only_demo json_map_demo json_test )
+include_directories ( ${SRC_DIR} )
 
 # CMake Environment
 option ( VERBOSE "Turn on verbose makefile output" off )
