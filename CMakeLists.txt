@@ -10,7 +10,16 @@ set ( CMAKE_TEMPLATE_DIR "${PROJECT_SOURCE_DIR}/cmake" )
 
 # Source files specified path must be relative path from project root and
 # without the closing backslash character
-set ( SRC_DIR "src" )
+set ( SRC_DIR "json_spirit" )
+
+# Include examples & tests
+SUBDIRS ( json_demo
+          json_headers_only_demo
+          json_map_demo
+          json_test
+        )
+
+include_directories ( ${SRC_DIR} )
 
 # Default installation paths are relative to CMAKE_INSTALL_PREFIX and must be
 # without the closing backslash character.
