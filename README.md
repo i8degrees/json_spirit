@@ -8,7 +8,7 @@ Originally, it was simply to include this library into my project as a git submo
 
 ## Changes From Original ##
 
-Except for the minor last two items, no changes have been made to the library source. All changes found are within the build script (CMakeLists.txt). The first three items are most important (to me).
+Except for the minor last two items, no changes have been made to the library source. All changes found are within the build script -- CMakeLists.txt. The first two, perhaps four items are important (to me).
 
 * Option to build as either a shared or static library (shared by default).
     > I had trouble using json_spirit on OSX when compiled as a static library -- something to do with the linking stage and json_spirit_value.o not having symbols. Building as a shared library fixes my problem.
@@ -17,6 +17,7 @@ Except for the minor last two items, no changes have been made to the library so
     > What a difference it makes in built library file sizes!
 
 * Add install_name_dir CMake property to build library so we do not have to manually "fix" it with install_name_tool when bundling it with third-party software; this only affects the build if you are building within the OS X environment.
+* Add OSX Framework bundle support; this option is only available within the OS X environment.
 
 * CMake option for OSX Universal Libraries. By default, this feature is disabled. This option is only available within the OS X environment.
 * Add soname version property to target library
@@ -52,7 +53,3 @@ After obtaining the necessary dependencies listed above:
 ```
 
 Uninstall support is provided by running 'make uninstall' within the build directory.
-
-## TODO ##
-
-* OSX Framework build target
