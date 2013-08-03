@@ -53,3 +53,7 @@ After obtaining the necessary dependencies listed above:
 ```
 
 Uninstall support is provided by running 'make uninstall' within the build directory.
+
+## Pull Requests ##
+
+Pull requests that pertain to OS X packaging / distribution are welcome as long as they do ***NOT*** apply only to a specific project.
