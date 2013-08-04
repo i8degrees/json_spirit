@@ -18,6 +18,7 @@ Except for the minor last two items, no changes have been made to the library so
 
 * Add install_name_dir CMake property to build library so we do not have to manually "fix" it with install_name_tool when bundling it with third-party software; this only affects the build if you are building within the OS X environment.
 * Add OSX Framework bundle support; this option is only available within the OS X environment.
+  > @rpath installation path support; you simply need to use install_name_tool -add_rpaths argument to set the proper runtime search paths and you are good to go.
 
 * CMake option for OSX Universal Libraries. By default, this feature is disabled. This option is only available within the OS X environment.
 * Add soname version property to target library

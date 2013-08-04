@@ -19,6 +19,9 @@ set ( INSTALL_HEADERS_PATH "include/${PROJECT_NAME}" )
 set ( INSTALL_DOCS_PATH "share/doc/${PROJECT_NAME}" )
 set ( INSTALL_EXTRA_FILES_PATH "share/${PROJECT_NAME}/cmake" )
 
+# For distribution with user's frameworks / application bundle
+set ( INSTALL_NAME_PATH "@rpath" )
+
 # This auto-generated file saves the result of the CMake options relating to the
 # feature set for the convenience of controlling these properties without
 # modifying the header file sources directly.
@@ -122,23 +125,14 @@ endif ( BUILD_SHARED_LIBS )
 
 if ( CMAKE_SYSTEM_NAME STREQUAL "Darwin" ) # OSX specific options
 
-  # For distribution with user's frameworks / application bundle as a dylib
-  # (We follow Apple's suggested Framework hierarchy here).
-  #
-  # TODO / I should probably be using @rpath here
-  set ( INSTALL_NAME_PATH "@executable_path/../Libraries" )
-
-  if ( FRAMEWORK )
-
-    set ( INSTALL_NAME_PATH "@executable_path/../Frameworks" )
-
-    # Set the library property with the variable we set above
-    set_target_properties ( ${PROJECT_NAME} PROPERTIES
-                            BUILD_WITH_INSTALL_RPATH 1
-                            INSTALL_NAME_DIR
-                            "${INSTALL_NAME_PATH}"
+  # Set the library property with the variable we set above
+  set_target_properties ( ${PROJECT_NAME} PROPERTIES
+                          BUILD_WITH_INSTALL_RPATH 1
+                          INSTALL_NAME_DIR
+                          "${INSTALL_NAME_PATH}"
                         )
 
+  if ( FRAMEWORK )
     # This builds and "installs" the framework in the current build folder
     # Normally, it isn't wise to be setting this variable... but unless I wish
     # to be burdened with the installation process, I see little other
@@ -171,15 +165,7 @@ if ( CMAKE_SYSTEM_NAME STREQUAL "Darwin" ) # OSX specific options
                             "org.dev.${PROJECT_NAME}"
                           )
 
-  else ( NOT FRAMEWORK )
-
-  set_target_properties ( ${PROJECT_NAME} PROPERTIES
-                          BUILD_WITH_INSTALL_RPATH 1
-                          INSTALL_NAME_DIR
-                          "${INSTALL_NAME_PATH}"
-                          )
   endif ( FRAMEWORK )
-
 endif ( CMAKE_SYSTEM_NAME STREQUAL "Darwin" )
 
 # Set library version info
