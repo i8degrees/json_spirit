@@ -12,12 +12,18 @@ set ( CMAKE_TEMPLATE_DIR "${PROJECT_SOURCE_DIR}/cmake" )
 # without the closing backslash character
 set ( SRC_DIR "json_spirit" )
 
+# Resources path must adhere to:
+#
+#   a) relative path from project root
+#   b) no closing backslash character
+set ( RESOURCES_PATH "Resources" )
+
 # Default installation paths are relative to CMAKE_INSTALL_PREFIX and must be
 # without the closing backslash character.
 set ( INSTALL_LIBRARY_PATH "lib" )
 set ( INSTALL_HEADERS_PATH "include/${PROJECT_NAME}" )
+set ( INSTALL_RESOURCES_PATH "share/${PROJECT_NAME}" )
 set ( INSTALL_DOCS_PATH "share/doc/${PROJECT_NAME}" )
-set ( INSTALL_EXTRA_FILES_PATH "share/${PROJECT_NAME}/cmake" )
 
 # For distribution with user's frameworks / application bundle
 set ( INSTALL_NAME_PATH "@rpath" )
@@ -147,7 +153,7 @@ if ( CMAKE_SYSTEM_NAME STREQUAL "Darwin" ) # OSX specific options
     set ( INSTALL_LIBRARY_PATH "${CMAKE_INSTALL_PREFIX}" )
     set ( INSTALL_HEADERS_PATH "${FRAMEWORK_PATH}/Headers" )
     set ( INSTALL_DOCS_PATH "${FRAMEWORK_PATH}/Resources" )
-    set ( INSTALL_EXTRA_FILES_PATH "${FRAMEWORK_PATH}/Resources" )
+    set ( INSTALL_RESOURCES_PATH "${FRAMEWORK_PATH}" )
 
     # Fill in the Info.plist template with our project details
     set_target_properties ( ${PROJECT_NAME} PROPERTIES
@@ -193,10 +199,12 @@ install ( FILES ${JSON_SPIRIT_HEADERS}
 # Install my project fork info
 install ( FILES "LICENSE.md" "README.md" DESTINATION "${INSTALL_DOCS_PATH}" )
 
-# Install my cmake module script for find_package support
-install ( DIRECTORY ${PROJECT_SOURCE_DIR}/extra
-          DESTINATION "${INSTALL_EXTRA_FILES_PATH}"
-          PATTERN ".*" EXCLUDE # do not include those pesky dotfiles
+# Install my cmake module script for auto-magical find_package support
+install ( DIRECTORY
+          "${RESOURCES_PATH}"
+          DESTINATION
+          "${INSTALL_RESOURCES_PATH}"
+          OPTIONAL
         )
 
 # Uninstall target
